@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Project.hrms.businiess.abstracts.JobTitleService;
+import Project.hrms.core.utilities.results.DataResult;
+import Project.hrms.core.utilities.results.ErrorResult;
+import Project.hrms.core.utilities.results.Result;
+import Project.hrms.core.utilities.results.SuccessDataResult;
+import Project.hrms.core.utilities.results.SuccessResult;
 import Project.hrms.dataAccess.abstracts.JobTitleDao;
 import Project.hrms.entities.concretes.JobTitle;
 
@@ -21,8 +26,26 @@ public class JobTitleManager implements JobTitleService {
 	}
 
 	@Override
-	public List<JobTitle> getAll() {
-		return this.jobTitleDao.findAll();
+	public DataResult<List<JobTitle>> getAll() {
+		
+		return new SuccessDataResult<List<JobTitle>>
+		(this.jobTitleDao.findAll(),"Data listed");	
+	}
+
+	@Override
+	public Result add(JobTitle jobTitle) {
+		
+		List<JobTitle>jobTitles=this.jobTitleDao.findAll();
+		//email and system user accept assumed to be verified
+		//mernis is assumed to be verified
+		for (JobTitle item : jobTitles) {
+			if (item.getTitle().equals(jobTitle.getTitle())) {
+				return new ErrorResult("User already defined");
+			}
+		}
+		
+		this.jobTitleDao.save(jobTitle);
+		return new SuccessResult("JobTitle added");
 	}
 
 }

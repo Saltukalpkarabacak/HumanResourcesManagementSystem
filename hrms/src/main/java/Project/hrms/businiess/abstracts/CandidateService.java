@@ -6,10 +6,10 @@ import java.util.List;
 
 import Project.hrms.core.utilities.results.DataResult;
 import Project.hrms.core.utilities.results.Result;
-import Project.hrms.entities.concretes.JobTitle;
+import Project.hrms.entities.concretes.Candidate;
 
 
-public interface JobTitleService {
-	DataResult<List<JobTitle>> getAll();
-	Result add(JobTitle jobTitle);
+public interface CandidateService{
+	DataResult<List<Candidate>> getAll();
+	Result register(Candidate candidate);
 }
