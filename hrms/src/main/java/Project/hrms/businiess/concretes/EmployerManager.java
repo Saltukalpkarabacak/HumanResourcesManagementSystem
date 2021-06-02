@@ -33,13 +33,11 @@ public class EmployerManager implements EmployerService {
 	@Override
 	public Result add(Employer employer) {
 		
-		List<Employer>employers=this.employerDao.findAll();
+		List<Employer>employers=this.employerDao.findByEmail(employer.getEmail());
 		//email and system user accept assumed to be verified
 		//mernis is assumed to be verified
-		for (Employer item : employers) {
-			if (item.getEmail().equals(employer.getEmail())) {
+		if (employers.size()>0) {
 				return new ErrorResult("User already defined");
-			}
 		}
 		
 		this.employerDao.save(employer);

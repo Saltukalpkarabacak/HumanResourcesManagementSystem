@@ -34,15 +34,12 @@ public class CandidateManager implements CandidateService{
 	@Override
 	public Result register(Candidate candidate) {
 		
-		List<Candidate>candidates=this.candidateDao.findAll();
+		List<Candidate>candidates=this.candidateDao.findByEmail(candidate.getEmail());
 		//email is assumed to be verified
 		//mernis is assumed to be verified
-		for (Candidate item : candidates) {
-			if (item.getEmail().equals(candidate.getEmail())) {
+		if (candidates.size()>0) {
 				return new ErrorResult("User already defined");
-			}
 		}
-		
 		this.candidateDao.save(candidate);
 		return new SuccessResult("User added");
 	}

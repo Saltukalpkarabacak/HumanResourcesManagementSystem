@@ -35,14 +35,13 @@ public class JobTitleManager implements JobTitleService {
 	@Override
 	public Result add(JobTitle jobTitle) {
 		
-		List<JobTitle>jobTitles=this.jobTitleDao.findAll();
+		List<JobTitle>jobTitles=this.jobTitleDao.findByTitle(jobTitle.getTitle());
 		//email and system user accept assumed to be verified
 		//mernis is assumed to be verified
-		for (JobTitle item : jobTitles) {
-			if (item.getTitle().equals(jobTitle.getTitle())) {
+		if (jobTitles.size()>0) {
 				return new ErrorResult("User already defined");
-			}
 		}
+		
 		
 		this.jobTitleDao.save(jobTitle);
 		return new SuccessResult("JobTitle added");

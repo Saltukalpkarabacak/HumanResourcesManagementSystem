@@ -9,5 +9,5 @@ import Project.hrms.entities.concretes.Candidate;
 
 public interface CandidateDao extends JpaRepository<Candidate, Integer>{
 
-	List<Candidate> findByemail(String email);
+	List<Candidate> findByEmail(String email);
 }
